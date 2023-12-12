@@ -8,18 +8,18 @@ import { FaCirclePlay } from "react-icons/fa6";
 export default function Home() {
   const [inp, setInp] = useState<string>("");
   const [sec, setSec] = useState<number>(0);
-  const [icon, setIcon] = useState<boolean>(true);
+  const [pause, setPause] = useState<boolean>(true);
   let intervalId: NodeJS.Timeout | null = null;
 
   useEffect(() => {
-    if (!icon) {
+    if (!pause) {
       setInp("");
       if (sec === 0) return alert("set time!!");
       intervalId = setInterval(() => {
         setSec((prev) => {
           if (prev === 1) {
             clearInterval(intervalId as NodeJS.Timeout);
-            setIcon((prev) => !prev);
+            setPause((prev) => !prev);
             return 0;
           } else return prev - 1;
         });
@@ -28,14 +28,14 @@ export default function Home() {
     return () => {
       if (intervalId) clearInterval(intervalId as NodeJS.Timeout);
     };
-  }, [icon]);
+  }, [pause]);
 
   return (
     <main className={styles.main}>
       <div className={styles.container}>
         <input
           value={inp}
-          disabled={!icon}
+          disabled={!pause}
           className={styles.input}
           onChange={(e) => {
             setInp(e.target.value);
@@ -46,9 +46,9 @@ export default function Home() {
         />
         <div>
           <h3 className={styles.timer}>
-            <div onClick={() => setIcon((prev) => !prev)}>
-              {icon && <FaCirclePlay />}
-              {!icon && <FaPauseCircle />}
+            <div onClick={() => setPause((prev) => !prev)}>
+              {pause && <FaCirclePlay />}
+              {!pause && <FaPauseCircle />}
             </div>
             {String(Math.floor(sec / 3600)).length === 1 && "0"}
             {Math.floor(sec / 3600)}:
