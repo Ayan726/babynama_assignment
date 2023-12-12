@@ -13,6 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!icon) {
+      setInp("");
       if (sec === 0) return alert("set time!!");
       intervalId = setInterval(() => {
         setSec((prev) => {
@@ -38,7 +39,7 @@ export default function Home() {
           className={styles.input}
           onChange={(e) => {
             setInp(e.target.value);
-            setSec(Number(e.target.value ? e.target.value : "0") * 60);
+            setSec(Number(e.target.value || "0") * 60);
           }}
           type="number"
           placeholder="Enter minutes here"
